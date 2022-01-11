@@ -2,7 +2,7 @@ module github.com/storezhang/gfx
 
 go 1.17
 
-require github.com/storezhang/gox v1.8.2
+require github.com/storezhang/gox v1.8.3
 
 require (
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
