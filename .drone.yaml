@@ -22,7 +22,7 @@ steps:
       image: dronestock/pangu
       pull: if-not-exists
       settings:
-        output: protobuf
+        output: gfx
 
   - name: 打包Docker并推送
     image: plugins/docker
@@ -34,7 +34,6 @@ steps:
       repo: storezhang/gfx
       tags:
         - latest
-        - 0.0.1
       compress: true
       mirror: https://docker.mirrors.ustc.edu.cn
       username: storezhang
