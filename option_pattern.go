@@ -13,6 +13,6 @@ func Pattern(pattern string) *optionPattern {
 	}
 }
 
-func (m *optionPattern) applyWalk(options *walkOptions) {
-	options.pattern = m.pattern
+func (p *optionPattern) applyWalk(options *walkOptions) {
+	options.pattern = p.pattern
 }

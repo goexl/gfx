@@ -13,6 +13,6 @@ func Ext(ext string) *optionExt {
 	}
 }
 
-func (m *optionExt) applyName(options *nameOptions) {
-	options.ext = m.ext
+func (e *optionExt) applyName(options *nameOptions) {
+	options.ext = e.ext
 }
