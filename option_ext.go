@@ -1,6 +1,9 @@
 package gfx
 
-var _ nameOption = (*optionExt)(nil)
+var (
+	_            = Ext
+	_ nameOption = (*optionExt)(nil)
+)
 
 type optionExt struct {
 	ext string
