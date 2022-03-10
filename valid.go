@@ -4,6 +4,11 @@ import (
 	`regexp`
 )
 
+var (
+	_ = ValidFilename
+	_ = ValidFilepath
+)
+
 // ValidFilename 有效文件名（Windows标准）
 func ValidFilename(filename string) bool {
 	fileRegexStr := `^[^\\\./:\*\?\"<>\|]{1}[^\\/:\*\?\"<>\|]{0,254}$`

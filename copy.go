@@ -5,10 +5,9 @@ import (
 	`io/ioutil`
 	`os`
 	`path/filepath`
-
-	`github.com/storezhang/gox`
-	`github.com/storezhang/gox/field`
 )
+
+var _ = Copy
 
 // Copy 文件复制
 // 如果文件有冲突，默认使用覆盖模式
@@ -18,11 +17,11 @@ func Copy(from string, to string, opts ...copyOption) (err error) {
 		opt.applyCopy(_options)
 	}
 
-	if !Exist(from) && WriteModeError != _options.mode { // 判断源文件是否存在
-		err = gox.NewFieldsError(`源文件不存在`, field.String(`path`, from))
-	} else if Exist(to) { // 判断目的文件是否存在
+	if !Exists(from) && WriteModeError != _options.mode { // 判断源文件是否存在
+		err = errSourceNotfound
+	} else if Exists(to) { // 判断目的文件是否存在
 		if WriteModeError == _options.mode {
-			err = gox.NewFieldsError(`目的文件已存在`, field.String(`path`, to))
+			err = errDestExists
 		} else if WriteModeRename == _options.mode {
 			to = NewFilename(to)
 		}
@@ -31,7 +30,7 @@ func Copy(from string, to string, opts ...copyOption) (err error) {
 		return
 	}
 
-	if _dir, dirErr := IsDir(from); nil != dirErr {
+	if _dir, dirErr := Is(from); nil != dirErr {
 		err = dirErr
 	} else if _dir {
 		err = copyDir(from, to, _options)
@@ -53,7 +52,7 @@ func copyDir(from string, to string, options *copyOptions) (err error) {
 		return
 	}
 	// 如果目的目录不存在，则创建目录
-	if !Exist(to) {
+	if !Exists(to) {
 		err = os.MkdirAll(to, info.Mode())
 	}
 	if nil != err {

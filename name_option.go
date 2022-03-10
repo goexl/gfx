@@ -6,13 +6,13 @@ type (
 	}
 
 	nameOptions struct {
-		_type _type
-		ext   string
+		typ _type
+		ext string
 	}
 )
 
 func defaultNameOptions() *nameOptions {
 	return &nameOptions{
-		_type: TypeFile,
+		typ: TypeFile,
 	}
 }

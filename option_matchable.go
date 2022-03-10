@@ -1,6 +1,9 @@
 package gfx
 
-var _ walkOption = (*optionMatchable)(nil)
+var (
+	_            = Matchable
+	_ walkOption = (*optionMatchable)(nil)
+)
 
 type optionMatchable struct {
 	matchable matchable

@@ -3,7 +3,7 @@ package gfx_test
 import (
 	`testing`
 
-	`github.com/storezhang/gfx`
+	`github.com/goexl/gfx`
 )
 
 func TestCopy(t *testing.T) {

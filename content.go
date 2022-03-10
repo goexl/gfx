@@ -5,6 +5,11 @@ import (
 	`os`
 )
 
+var (
+	_ = ContentType
+	_ = ContentTypeForFile
+)
+
 // ContentType 获得文件的类型
 func ContentType(path string) (contentType string, err error) {
 	var file *os.File

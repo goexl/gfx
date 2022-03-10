@@ -6,6 +6,11 @@ import (
 	`strings`
 )
 
+var (
+	_ = Filename
+	_ = NewFilename
+)
+
 // Filename 获得文件名称
 func Filename(path string, opts ...nameOption) (filename string) {
 	_options := defaultNameOptions()
@@ -13,7 +18,7 @@ func Filename(path string, opts ...nameOption) (filename string) {
 		opt.applyName(_options)
 	}
 
-	switch _options._type {
+	switch _options.typ {
 	case TypeDir:
 		filename = dir(path)
 	case TypeFile:
@@ -30,7 +35,7 @@ func NewFilename(path string) (filename string) {
 	for {
 		index := 1
 		filename = filepath.Join(filepath.Dir(path), name(path, fmt.Sprintf(`%d.%s`, index, filepath.Ext(path))))
-		if !Exist(filename) {
+		if !Exists(filename) {
 			break
 		}
 	}

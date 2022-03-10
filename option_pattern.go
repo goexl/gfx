@@ -1,6 +1,9 @@
 package gfx
 
-var _ walkOption = (*optionPattern)(nil)
+var (
+	_            = Pattern
+	_ walkOption = (*optionPattern)(nil)
+)
 
 type optionPattern struct {
 	pattern string

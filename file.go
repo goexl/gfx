@@ -3,9 +3,13 @@ package gfx
 import (
 	`os`
 	`syscall`
+)
 
-	`github.com/storezhang/gox`
-	`github.com/storezhang/gox/field`
+var (
+	_ = Create
+	_ = Exists
+	_ = Rename
+	_ = Delete
 )
 
 // Create 创建文件或者目录
@@ -17,10 +21,10 @@ func Create(path string, opts ...option) (err error) {
 		opt.apply(_options)
 	}
 
-	if Exist(path) {
+	if Exists(path) {
 		switch _options.writeMode {
 		case WriteModeError:
-			err = gox.NewFieldsError(`文件已存在`, field.String(`path`, path))
+			err = errFileExists
 		case WriteModeSkip:
 			return
 		case WriteModeOverride:
@@ -34,7 +38,7 @@ func Create(path string, opts ...option) (err error) {
 	}
 
 	// 创建文件或者目录
-	switch _options._type {
+	switch _options.typ {
 	case TypeDir:
 		err = os.MkdirAll(path, _options.fileMode)
 	default:
@@ -52,12 +56,12 @@ func Create(path string, opts ...option) (err error) {
 	return
 }
 
-// Exist 判断文件是否存在
-func Exist(filename string) (exist bool) {
+// Exists 判断文件是否存在
+func Exists(filename string) (exists bool) {
 	if _, err := os.Stat(filename); nil != err && os.IsNotExist(err) {
-		exist = false
+		exists = false
 	} else {
-		exist = true
+		exists = true
 	}
 
 	return
@@ -73,14 +77,26 @@ func Delete(filename string) error {
 	return os.RemoveAll(filename)
 }
 
-// IsDir 判断所给路径是否为文件夹
-func IsDir(path string) (dir bool, err error) {
+// Is 判断所给路径是否为文件或者目录
+func Is(path string, opts ...isOption) (is bool, err error) {
+	_options := defaultIsOptions()
+	for _, opt := range opts {
+		opt.applyCheck(_options)
+	}
+
 	var stat os.FileInfo
 	if stat, err = os.Stat(path); nil != err {
 		return
 	}
 
-	dir = stat.IsDir()
+	switch _options.typ {
+	case TypeDir:
+		is = stat.IsDir()
+	case TypeFile:
+		is = !stat.IsDir()
+	default:
+		is = true
+	}
 	stat = nil
 
 	return

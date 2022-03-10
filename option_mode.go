@@ -4,7 +4,10 @@ import (
 	`os`
 )
 
-var _ option = (*optionMode)(nil)
+var (
+	_        = Mode
+	_ option = (*optionMode)(nil)
+)
 
 type optionMode struct {
 	mode os.FileMode

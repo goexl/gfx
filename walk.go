@@ -5,6 +5,8 @@ import (
 	`path/filepath`
 )
 
+var _ = All
+
 // All 取得目录下所有文件，包含子目录
 // 默认文件匹配所有文件
 func All(dir string, opts ...walkOption) (paths []string, err error) {

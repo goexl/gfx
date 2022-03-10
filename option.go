@@ -11,7 +11,7 @@ type (
 	}
 
 	options struct {
-		_type     _type
+		typ       _type
 		fileMode  fs.FileMode
 		writeMode writeMode
 		owner     *owner
@@ -20,7 +20,7 @@ type (
 
 func defaultOptions() *options {
 	return &options{
-		_type:    TypeFile,
+		typ:      TypeFile,
 		fileMode: os.ModePerm,
 	}
 }

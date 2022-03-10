@@ -1,6 +1,9 @@
 package gfx
 
-var _ copyOption = (*optionWriteMode)(nil)
+var (
+	_            = WriteMode
+	_ copyOption = (*optionWriteMode)(nil)
+)
 
 type optionWriteMode struct {
 	mode writeMode

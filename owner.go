@@ -1,5 +1,7 @@
 package gfx
 
+var _ = NewOwner
+
 type owner struct {
 	uid int
 	gid int

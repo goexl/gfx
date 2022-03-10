@@ -1,18 +1,21 @@
 package gfx
 
 var (
+	_            = Type
+	_            = File
+	_            = Dir
 	_ option     = (*optionType)(nil)
 	_ nameOption = (*optionType)(nil)
 )
 
 type optionType struct {
-	_type _type
+	typ _type
 }
 
 // Type 配置类型
 func Type(_type _type) *optionType {
 	return &optionType{
-		_type: _type,
+		typ: _type,
 	}
 }
 
@@ -26,9 +29,13 @@ func Dir() *optionType {
 }
 
 func (t *optionType) apply(options *options) {
-	options._type = t._type
+	options.typ = t.typ
 }
 
 func (t *optionType) applyName(options *nameOptions) {
-	options._type = t._type
+	options.typ = t.typ
+}
+
+func (t *optionType) applyCheck(options *isOptions) {
+	options.typ = t.typ
 }
