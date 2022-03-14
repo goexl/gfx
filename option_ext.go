@@ -6,16 +6,22 @@ var (
 )
 
 type optionExt struct {
-	ext string
+	extensions []string
 }
 
 // Ext 配置文件扩展名
-func Ext(ext string) *optionExt {
+func Ext(ext string, others ...string) *optionExt {
 	return &optionExt{
-		ext: ext,
+		extensions: append([]string{
+			ext,
+		}, others...),
 	}
 }
 
 func (e *optionExt) applyName(options *nameOptions) {
-	options.ext = e.ext
+	options.ext = e.extensions[0]
+}
+
+func (e *optionExt) applyExists(options *existsOptions) {
+	options.extensions = append(options.extensions, e.extensions...)
 }

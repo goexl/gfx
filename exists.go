@@ -13,7 +13,8 @@ func Exists(path string, opts ...existsOption) (final string, exists bool) {
 	for _, opt := range opts {
 		opt.applyExists(_options)
 	}
-	_options.paths = append(_options.paths, path)
+	// 默认的路径必须在最前
+	_options.paths = append([]string{path}, _options.paths...)
 
 	// 检查路径
 	exists = true
