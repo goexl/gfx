@@ -16,8 +16,13 @@ func Exists(path string, opts ...existsOption) (final string, exists bool) {
 	_options.paths = append(_options.paths, path)
 
 	// 检查路径
+	exists = true
 	for _, _path := range _options.paths {
-
+		typ := _options.typ
+		final, exists = existsWithExtensions(_path, typ, _options.extensions...)
+		if CheckTypeAny == typ && exists || CheckTypeAll == typ && !exists {
+			break
+		}
 	}
 
 	return
@@ -30,13 +35,11 @@ func existsWithExtensions(path string, typ checkType, extensions ...string) (fin
 		exists = existsWithPath(path)
 	} else {
 		for _, ext := range extensions {
-			path = fmt.Sprintf(filepathFormatter, path, ext)
-			if existsWithPath(path) {
-				if CheckTypeAny == typ {
-					break
-				}
-			} else {
+			final = fmt.Sprintf(filepathFormatter, path, ext)
+			exists = existsWithPath(final)
 
+			if CheckTypeAny == typ && exists || CheckTypeAll == typ && !exists {
+				break
 			}
 		}
 	}
