@@ -7,7 +7,6 @@ import (
 
 var (
 	_ = Create
-	_ = Exists
 	_ = Rename
 	_ = Delete
 )
@@ -51,17 +50,6 @@ func Create(path string, opts ...option) (err error) {
 	// 改变文件的拥有者
 	if nil != _options.owner {
 		err = os.Chown(path, _options.owner.uid, _options.owner.gid)
-	}
-
-	return
-}
-
-// Exists 判断文件是否存在
-func Exists(filename string) (exists bool) {
-	if _, err := os.Stat(filename); nil != err && os.IsNotExist(err) {
-		exists = false
-	} else {
-		exists = true
 	}
 
 	return
