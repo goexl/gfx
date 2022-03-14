@@ -3,6 +3,7 @@ package gfx
 import (
 	`fmt`
 	`os`
+	`path/filepath`
 )
 
 var _ = Exists
@@ -20,7 +21,12 @@ func Exists(path string, opts ...existsOption) (final string, exists bool) {
 	exists = true
 	for _, _path := range _options.paths {
 		typ := _options.typ
-		final, exists = existsWithExtensions(_path, typ, _options.extensions...)
+		if `` == filepath.Ext(_path) {
+			final, exists = existsWithExtensions(_path, typ, _options.extensions...)
+		} else {
+			final = _path
+			exists = existsWithPath(_path)
+		}
 		if CheckTypeAny == typ && exists || CheckTypeAll == typ && !exists {
 			break
 		}
