@@ -20,7 +20,7 @@ func Create(path string, opts ...option) (err error) {
 		opt.apply(_options)
 	}
 
-	if Exists(path) {
+	if existsWithPath(path) {
 		switch _options.writeMode {
 		case WriteModeError:
 			err = errFileExists

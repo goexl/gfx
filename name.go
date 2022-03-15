@@ -31,11 +31,11 @@ func Filename(path string, opts ...nameOption) (filename string) {
 }
 
 // NewFilename 新文件名，在避免文件名冲突的情况下
-func NewFilename(path string) (filename string) {
+func NewFilename(original string) (new string) {
 	for {
 		index := 1
-		filename = filepath.Join(filepath.Dir(path), name(path, fmt.Sprintf(`%d.%s`, index, filepath.Ext(path))))
-		if !Exists(filename) {
+		new = filepath.Join(filepath.Dir(original), name(original, fmt.Sprintf(`%d.%s`, index, filepath.Ext(original))))
+		if !existsWithPath(new) {
 			break
 		}
 	}
