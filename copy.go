@@ -23,7 +23,7 @@ func Copy(from string, to string, opts ...copyOption) (err error) {
 		if WriteModeError == _options.mode {
 			err = errDestExists
 		} else if WriteModeRename == _options.mode {
-			to = NewFilename(to)
+			to = NewName(to)
 		}
 	}
 	if nil != err {

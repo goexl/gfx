@@ -7,12 +7,12 @@ import (
 )
 
 var (
-	_ = Filename
-	_ = NewFilename
+	_ = Name
+	_ = NewName
 )
 
-// Filename 获得文件名称
-func Filename(path string, opts ...nameOption) (filename string) {
+// Name 获得文件名称
+func Name(path string, opts ...nameOption) (filename string) {
 	_options := defaultNameOptions()
 	for _, opt := range opts {
 		opt.applyName(_options)
@@ -30,8 +30,8 @@ func Filename(path string, opts ...nameOption) (filename string) {
 	return
 }
 
-// NewFilename 新文件名，在避免文件名冲突的情况下
-func NewFilename(original string) (new string) {
+// NewName 新文件名，在避免文件名冲突的情况下
+func NewName(original string) (new string) {
 	for {
 		index := 1
 		new = filepath.Join(filepath.Dir(original), name(original, fmt.Sprintf(`%d.%s`, index, filepath.Ext(original))))

@@ -29,7 +29,7 @@ func Create(path string, opts ...option) (err error) {
 		case WriteModeOverride:
 			err = Delete(path)
 		case WriteModeRename:
-			path = NewFilename(path)
+			path = NewName(path)
 		}
 	}
 	if nil != err {
