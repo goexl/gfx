@@ -5,34 +5,42 @@ import (
 	`path/filepath`
 )
 
-var _ = All
+var (
+	_ = All
+	_ = Walk
+)
 
 // All 取得目录下所有文件，包含子目录
 // 默认文件匹配所有文件
-func All(dir string, opts ...walkOption) (paths []string, err error) {
+func All(dir string, opts ...walkOption) (filenames []string, err error) {
+	filenames = make([]string, 0)
+	err = Walk(dir, func(path string, info os.FileInfo) {
+		filenames = append(filenames, path)
+	}, opts...)
+
+	return
+}
+
+// Walk 浏览目录
+// 默认文件匹配所有文件
+func Walk(dir string, handler walkHandler, opts ...walkOption) (err error) {
 	_options := defaultWalkOptions()
 	for _, opt := range opts {
 		opt.applyWalk(_options)
 	}
 
-	paths = make([]string, 0)
 	err = filepath.Walk(dir, func(path string, info os.FileInfo, walkErr error) (err error) {
-		if nil != walkErr {
-			err = walkErr
-		}
-		if nil != err {
+		if err = walkErr; nil != err {
 			return
 		}
-		if info.IsDir() {
+		if TypeDir == _options.typ && !info.IsDir() || TypeFile == _options.typ && info.IsDir() {
 			return
 		}
 
-		if matched, matchErr := filepath.Match(_options.pattern, filepath.Base(path)); matchErr != nil {
+		if matched, matchErr := _options.matchable(path); matchErr != nil {
 			err = matchErr
 		} else if matched {
-			if nil == _options.matchable || nil != _options.matchable && _options.matchable(path) {
-				paths = append(paths, path)
-			}
+			handler(path, info)
 		}
 
 		return

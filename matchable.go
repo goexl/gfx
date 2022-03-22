@@ -1,3 +1,3 @@
 package gfx
 
-type matchable func(path string) bool
+type matchable func(path string) (matched bool, err error)

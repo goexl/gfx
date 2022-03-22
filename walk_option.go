@@ -6,13 +6,14 @@ type (
 	}
 
 	walkOptions struct {
-		pattern   string
+		typ       _type
 		matchable matchable
 	}
 )
 
 func defaultWalkOptions() *walkOptions {
 	return &walkOptions{
-		pattern: `*`,
+		typ:       TypeFile,
+		matchable: patternMatchable(all),
 	}
 }

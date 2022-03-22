@@ -9,7 +9,7 @@ type optionPattern struct {
 	pattern string
 }
 
-// Pattern 配置文件匹配模式
+// Pattern 模式匹配
 func Pattern(pattern string) *optionPattern {
 	return &optionPattern{
 		pattern: pattern,
@@ -17,5 +17,5 @@ func Pattern(pattern string) *optionPattern {
 }
 
 func (p *optionPattern) applyWalk(options *walkOptions) {
-	options.pattern = p.pattern
+	options.matchable = patternMatchable(p.pattern)
 }
