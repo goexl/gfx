@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	_            = Regex
+	_            = Regexp
 	_ walkOption = (*optionRegexp)(nil)
 )
 
@@ -13,8 +13,8 @@ type optionRegexp struct {
 	regexp string
 }
 
-// Regex 正则匹配
-func Regex(regex string) *optionRegexp {
+// Regexp 正则匹配
+func Regexp(regex string) *optionRegexp {
 	return &optionRegexp{
 		regexp: regex,
 	}
