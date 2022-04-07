@@ -13,6 +13,11 @@ import (
 	"golang.org/x/text/transform"
 )
 
+var (
+	_ = Zip
+	_ = Unzip
+)
+
 // Zip 压缩文件
 func Zip(destFileName string, zipFileNames ...string) (err error) {
 	var destFile *os.File
