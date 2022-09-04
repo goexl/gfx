@@ -10,12 +10,10 @@ clone:
 
 steps:
   - name: 代码
-    image: dronestock/git
-    pull: always
+    image: ccr.ccs.tencentyun.com/dronestock/git
 
   - name: 编译
-    image: pangum/drone
-    pull: always
+    image: ccr.ccs.tencentyun.com/pangum/drone
     volumes:
       - name: go
         path: /go
@@ -24,14 +22,12 @@ steps:
       compress: false
 
   - name: 文档
-    image: dronestock/node
-    pull: always
+    image: ccr.ccs.tencentyun.com/dronestock/node
     settings:
       folder: doc
 
   - name: 部署
-    image: dronestock/cos
-    pull: always
+    image: ccr.ccs.tencentyun.com/dronestock/cos
     settings:
       folder: doc/dist
       secret_id:
