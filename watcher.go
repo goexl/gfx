@@ -6,7 +6,7 @@ type Watcher interface {
 	OnCreated(path string)
 
 	// OnChanged 文件发生改变时
-	OnChanged(path string, content []byte)
+	OnChanged(path string)
 
 	// OnDeleted 文件被删除时
 	OnDeleted(path string)

@@ -1,7 +1,6 @@
 package gfx
 
 import (
-	"os"
 	"sync"
 
 	"github.com/fsnotify/fsnotify"
@@ -49,9 +48,7 @@ func onEvent(watcher Watcher, event fsnotify.Event, ok bool) {
 	path := event.Name
 	switch event.Op {
 	case fsnotify.Write:
-		if data, err := os.ReadFile(path); nil == err {
-			watcher.OnChanged(path, data)
-		}
+		watcher.OnChanged(path)
 	case fsnotify.Remove:
 		watcher.OnDeleted(path)
 	case fsnotify.Rename:
