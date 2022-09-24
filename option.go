@@ -1,9 +1,11 @@
 package gfx
 
 import (
-	`io/fs`
-	`os`
+	"io/fs"
+	"os"
 )
+
+var _ = NewOptions
 
 type (
 	option interface {
@@ -17,6 +19,11 @@ type (
 		owner     *owner
 	}
 )
+
+// NewOptions 暴露给外部使用的快捷方法
+func NewOptions(opts ...option) []option {
+	return opts
+}
 
 func defaultOptions() *options {
 	return &options{
