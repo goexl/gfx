@@ -1,9 +1,7 @@
 module github.com/goexl/gfx
 
-go 1.18
-
 require (
-	github.com/fsnotify/fsnotify v1.5.4
+	github.com/fsnotify/fsnotify v1.6.0
 	golang.org/x/text v0.3.7
 )
 
