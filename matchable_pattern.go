@@ -1,11 +1,11 @@
 package gfx
 
 import (
-	`path/filepath`
+	"path"
 )
 
 func patternMatchable(pattern string) matchable {
-	return func(path string) (matched bool, err error) {
-		return filepath.Match(pattern, path)
+	return func(filepath string) (matched bool, err error) {
+		return path.Match(pattern, filepath)
 	}
 }
