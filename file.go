@@ -2,6 +2,7 @@ package gfx
 
 import (
 	`os`
+	"path/filepath"
 	`syscall`
 )
 
@@ -56,8 +57,14 @@ func Create(path string, opts ...option) (err error) {
 }
 
 // Rename 重命名文件或者目录
-func Rename(from string, to string) error {
-	return syscall.Rename(from, to)
+func Rename(from string, to string) (err error) {
+	if !existsWithPath(filepath.Dir(to)) {
+		err = os.MkdirAll(to, os.ModePerm)
+	} else {
+		err = syscall.Rename(from, to)
+	}
+
+	return
 }
 
 // Delete 删除文件或者目录
