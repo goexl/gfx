@@ -9,7 +9,7 @@ import (
 var (
 	_ = Create
 	_ = Rename
-	_=Move
+	_ = Move
 	_ = Delete
 )
 
@@ -69,8 +69,8 @@ func Rename(from string, to string) (err error) {
 }
 
 // Move 移动文件
-func Move(from string, to string) error{
-	return Rename(from,to)
+func Move(from string, to string) error {
+	return Rename(from, to)
 }
 
 // Delete 删除文件或者目录
