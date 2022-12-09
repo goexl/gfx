@@ -37,8 +37,10 @@ func Walk(dir string, handler walkHandler, opts ...walkOption) (err error) {
 			return
 		}
 
-		if matched, matchErr := _options.matchable(path); matchErr != nil {
-			err = matchErr
+		if nil==_options.matchable{
+			handler(path,info)
+		}else if matched, me := _options.matchable(path); me != nil {
+			err = me
 		} else if matched {
 			handler(path, info)
 		}
