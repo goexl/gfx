@@ -1,9 +1,9 @@
 package gfx_test
 
 import (
-	`testing`
+	"testing"
 
-	`github.com/goexl/gfx`
+	"github.com/goexl/gfx"
 )
 
 func TestCopy(t *testing.T) {

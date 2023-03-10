@@ -1,7 +1,7 @@
 package gfx
 
 import (
-	`errors`
+	"errors"
 )
 
 var (

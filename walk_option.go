@@ -20,6 +20,6 @@ func NewWalkOptions(opts ...walkOption) []walkOption {
 
 func defaultWalkOptions() *walkOptions {
 	return &walkOptions{
-		typ:       TypeFile,
+		typ: TypeFile,
 	}
 }

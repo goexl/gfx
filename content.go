@@ -1,8 +1,8 @@
 package gfx
 
 import (
-	`net/http`
-	`os`
+	"net/http"
+	"os"
 )
 
 var (

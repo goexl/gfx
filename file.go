@@ -1,9 +1,9 @@
 package gfx
 
 import (
-	`os`
+	"os"
 	"path/filepath"
-	`syscall`
+	"syscall"
 )
 
 var (
@@ -62,7 +62,7 @@ func Rename(from string, to string) (err error) {
 	if !existsWithPath(filepath.Dir(to)) {
 		err = os.MkdirAll(to, os.ModePerm)
 	}
-		err = syscall.Rename(from, to)
+	err = syscall.Rename(from, to)
 
 	return
 }

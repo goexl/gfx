@@ -1,9 +1,9 @@
 package gfx
 
 import (
-	`fmt`
-	`path/filepath`
-	`strings`
+	"fmt"
+	"path/filepath"
+	"strings"
 )
 
 var (

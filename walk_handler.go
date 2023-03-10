@@ -1,7 +1,7 @@
 package gfx
 
 import (
-	`os`
+	"os"
 )
 
 type walkHandler func(path string, info os.FileInfo)

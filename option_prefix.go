@@ -5,8 +5,8 @@ import (
 )
 
 var (
-	_           = Prefix
-	_ zipOption = (*optionPrefix)(nil)
+	_            = Prefix
+	_ zipOption  = (*optionPrefix)(nil)
 	_ walkOption = (*optionPrefix)(nil)
 )
 

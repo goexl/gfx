@@ -1,8 +1,8 @@
 package gfx
 
 import (
-	`os`
-	`path/filepath`
+	"os"
+	"path/filepath"
 )
 
 var (
@@ -37,9 +37,9 @@ func Walk(dir string, handler walkHandler, opts ...walkOption) (err error) {
 			return
 		}
 
-		if nil==_options.matchable{
-			handler(path,info)
-		}else if matched, me := _options.matchable(path); me != nil {
+		if nil == _options.matchable {
+			handler(path, info)
+		} else if matched, me := _options.matchable(path); me != nil {
 			err = me
 		} else if matched {
 			handler(path, info)

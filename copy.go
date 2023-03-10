@@ -1,10 +1,10 @@
 package gfx
 
 import (
-	`io`
-	`io/ioutil`
-	`os`
-	`path/filepath`
+	"io"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 )
 
 var _ = Copy
