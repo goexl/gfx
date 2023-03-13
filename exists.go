@@ -27,13 +27,18 @@ func (e *exists) Check() (final string, exists bool) {
 	for _, dir := range e.params.dirs {
 		for _, filename := range e.params.filenames {
 			for _, ext := range e.params.extensions {
-				path := filepath.Join(dir, filename, ext)
-				exists = e.exists(path)
+				final = filepath.Join(dir, filename, ext)
+				exists = e.exists(final)
 				if checkTypeAny == e.params.typ && exists || checkTypeAll == e.params.typ && !exists {
 					break
 				}
 			}
 		}
+	}
+
+	// 如果不存在，需要清空最终路径
+	if !exists {
+		final = ""
 	}
 
 	return
