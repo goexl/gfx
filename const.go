@@ -1,3 +1,6 @@
 package gfx
 
-const dot = "."
+const (
+	empty=""
+	dot = "."
+)

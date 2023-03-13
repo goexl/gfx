@@ -22,6 +22,12 @@ func newExists(params *existsParams) *exists {
 }
 
 func (e *exists) Check() (final string, exists bool) {
+	if 0==len(e.params.filenames){
+		e.params.filenames=append(e.params.filenames, empty)
+	}
+		if 0==len(e.params.extensions){
+		e.params.extensions=append(e.params.extensions, empty)
+	}
 	// 检查路径
 	exists = true
 	for _, dir := range e.params.dirs {
