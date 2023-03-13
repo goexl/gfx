@@ -35,9 +35,9 @@ func NewName(original string) (new string) {
 	for {
 		index := 1
 		new = filepath.Join(filepath.Dir(original), name(original, fmt.Sprintf(`%d.%s`, index, filepath.Ext(original))))
-		if !existsWithPath(new) {
+		/*if !existsWithPath(new) {
 			break
-		}
+		}*/
 	}
 
 	return

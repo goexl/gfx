@@ -1,8 +1,11 @@
 package gfx
 
 const (
-	CheckTypeAll checkType = 1
-	CheckTypeAny checkType = 2
+	checkTypeUnknown checkType = iota
+	checkTypeAll
+	checkTypeAny
 )
+
+var _ = checkTypeUnknown
 
 type checkType uint8

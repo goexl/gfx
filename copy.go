@@ -17,7 +17,7 @@ func Copy(from string, to string, opts ...copyOption) (err error) {
 		opt.applyCopy(_options)
 	}
 
-	if !existsWithPath(from) && WriteModeError != _options.mode { // 判断源文件是否存在
+	/*if !existsWithPath(from) && WriteModeError != _options.mode { // 判断源文件是否存在
 		err = errSourceNotfound
 	} else if existsWithPath(to) { // 判断目的文件是否存在
 		if WriteModeError == _options.mode {
@@ -25,7 +25,7 @@ func Copy(from string, to string, opts ...copyOption) (err error) {
 		} else if WriteModeRename == _options.mode {
 			to = NewName(to)
 		}
-	}
+	}*/
 	if nil != err {
 		return
 	}
@@ -47,14 +47,14 @@ func copyDir(from string, to string, options *copyOptions) (err error) {
 		return
 	}
 
-	var info os.FileInfo
+	/*var info os.FileInfo
 	if info, err = os.Stat(from); nil != err {
 		return
 	}
 	// 如果目的目录不存在，则创建目录
 	if !existsWithPath(to) {
 		err = os.MkdirAll(to, info.Mode())
-	}
+	}*/
 	if nil != err {
 		return
 	}

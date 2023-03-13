@@ -2,7 +2,6 @@ package gfx
 
 import (
 	"os"
-	"path/filepath"
 	"syscall"
 )
 
@@ -22,7 +21,7 @@ func Create(path string, opts ...option) (err error) {
 		opt.apply(_options)
 	}
 
-	if existsWithPath(path) {
+	/*if existsWithPath(path) {
 		switch _options.writeMode {
 		case WriteModeError:
 			err = errFileExists
@@ -33,7 +32,7 @@ func Create(path string, opts ...option) (err error) {
 		case WriteModeRename:
 			path = NewName(path)
 		}
-	}
+	}*/
 	if nil != err {
 		return
 	}
@@ -59,9 +58,9 @@ func Create(path string, opts ...option) (err error) {
 
 // Rename 重命名文件或者目录
 func Rename(from string, to string) (err error) {
-	if !existsWithPath(filepath.Dir(to)) {
+	/*if !existsWithPath(filepath.Dir(to)) {
 		err = os.MkdirAll(to, os.ModePerm)
-	}
+	}*/
 	err = syscall.Rename(from, to)
 
 	return

@@ -22,6 +22,6 @@ func NewExistsOptions(opts ...existsOption) []existsOption {
 func defaultExistsOptions() *existsOptions {
 	return &existsOptions{
 		paths: make([]string, 0),
-		typ:   CheckTypeAny,
+		typ:   checkTypeAny,
 	}
 }
