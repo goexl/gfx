@@ -59,6 +59,11 @@ func (e *Exists) Extension(extension string, extensions ...string) (exists *Exis
 }
 
 func (e *Exists) Build() *core.Exists {
+	// 检查扩展名是不是已经被设置过，如果被设置过去除默认配置
+	if 1 < len(e.params.Extensions) {
+		e.params.Extensions = e.params.Extensions[1:]
+	}
+
 	return core.NewExists(e.params)
 }
 
