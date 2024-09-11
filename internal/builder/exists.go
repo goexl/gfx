@@ -1,6 +1,7 @@
 package builder
 
 import (
+	"path/filepath"
 	"strings"
 
 	"github.com/goexl/gfx/internal/internal/constant"
@@ -38,6 +39,20 @@ func (e *Exists) Dir(dir string, dirs ...string) *Exists {
 
 func (e *Exists) Directory(directory string, directories ...string) (exists *Exists) {
 	e.params.Directories = append(e.params.Directories, append([]string{directory}, directories...))
+	exists = e
+
+	return
+}
+
+func (e *Exists) Filepath(required string, paths ...string) (exists *Exists) {
+	for _, path := range append([]string{required}, paths...) {
+		dir, filename := filepath.Split(path)
+		name := filepath.Base(filename)
+		ext := filepath.Ext(name)
+		e.params.Directories = append(e.params.Directories, filepath.SplitList(dir))
+		e.params.Filenames = append(e.params.Filenames, name)
+		e.params.Extensions = append(e.params.Extensions, ext)
+	}
 	exists = e
 
 	return
