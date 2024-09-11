@@ -58,7 +58,7 @@ func Create(path string, opts ...option) (err error) {
 
 // Rename 重命名文件或者目录
 func Rename(from string, to string) (err error) {
-	/*if !existsWithPath(filepath.Dir(to)) {
+	/*if !existsWithPath(filepath.Directory(to)) {
 		err = os.MkdirAll(to, os.ModePerm)
 	}*/
 	err = syscall.Rename(from, to)

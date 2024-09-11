@@ -1,9 +1,8 @@
 package gfx
 
 var (
-	_              = Path
-	_              = Paths
-	_ existsOption = (*optionPaths)(nil)
+	_ = Path
+	_ = Paths
 )
 
 type optionPaths struct {
@@ -22,8 +21,4 @@ func Paths(paths ...string) *optionPaths {
 	return &optionPaths{
 		paths: paths,
 	}
-}
-
-func (p *optionPaths) applyExists(options *existsOptions) {
-	options.paths = append(options.paths, p.paths...)
 }

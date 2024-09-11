@@ -8,8 +8,8 @@ import (
 
 type (
 	in struct {
-		path       string
-		dirs       []string
+		dirs       [][]string
+		filename   string
 		extensions []string
 	}
 
@@ -24,36 +24,39 @@ func TestExists(t *testing.T) {
 		in       in
 		expected expected
 	}{{in: in{
-		path:       "testdata/exists/application.yml",
-		dirs:       make([]string, 0),
-		extensions: make([]string, 0),
-	}, expected: expected{
-		final:  "testdata/exists/application.yml",
-		exists: true,
-	}}, {in: in{
-		path:       "testdata/exists/application.test",
-		dirs:       []string{"testdata/exists/application"},
+		dirs: [][]string{{
+			"testdata", "exists", "application",
+		}},
+		filename:   "application",
 		extensions: []string{"yaml", "yml", "xml", "json", "toml"},
 	}, expected: expected{
 		final:  "testdata/exists/application.yaml",
 		exists: true,
 	}}, {in: in{
-		path:       "testdata/exists/application.test",
-		dirs:       []string{"testdata/exists/application"},
+		dirs: [][]string{{
+			"testdata/exists/application",
+		}},
+		filename:   "application",
 		extensions: []string{"toml", "yaml", "yml", "xml", "json"},
 	}, expected: expected{
 		final:  "testdata/exists/application.toml",
 		exists: true,
 	}}, {in: in{
-		path:       "testdata/exists/application.test",
-		dirs:       []string{"testdata/exists/application/application"},
+		dirs: [][]string{{
+			"testdata", "exists", "application", "application",
+		}},
+		filename:   "application",
 		extensions: []string{"toml", "yaml", "yml", "xml", "json"},
 	}, expected: expected{
 		final:  "testdata/exists/application/application.toml",
 		exists: true,
 	}}, {in: in{
-		path:       "testdata/exists/application.test",
-		dirs:       []string{"testdata/exists/application", "testdata/exists/application/application"},
+		dirs: [][]string{{
+			"testdata", "exists", "application",
+		}, {
+			"testdata", "exists", "application", "application",
+		}},
+		filename:   "application",
 		extensions: []string{"gfx", "gex"},
 	}, expected: expected{
 		final:  "testdata/exists/application/application.toml",
@@ -61,13 +64,17 @@ func TestExists(t *testing.T) {
 	}}}
 
 	for _, test := range tests {
-		final, exists := gfx.Exists(test.in.path).Dir(test.in.dirs...).Ext(test.in.extensions...).Build().Check()
-		if true == exists && true == test.expected.exists {
+		exists := gfx.Exist().Filename(test.in.filename).Extension(test.in.extensions[0], test.in.extensions[1:]...)
+		for _, dir := range test.in.dirs {
+			exists.Directory(dir[0], dir[1:]...)
+		}
+		final, checked := exists.Build().Check()
+		if true == checked && true == test.expected.exists {
 			if final != test.expected.final {
 				t.Fatalf(
-					"期望：{final=%v, exists=%v}，实际：{final=%v, exist=%v}",
+					"期望：{final=%v, checked=%v}，实际：{final=%v, exist=%v}",
 					test.expected.final, test.expected.exists,
-					final, exists,
+					final, checked,
 				)
 			}
 		}
