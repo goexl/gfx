@@ -64,7 +64,7 @@ func TestExists(t *testing.T) {
 	}}}
 
 	for _, test := range tests {
-		exists := gfx.Exist().Filename(test.in.filename).Extension(test.in.extensions[0], test.in.extensions[1:]...)
+		exists := gfx.Exists().Filename(test.in.filename).Extension(test.in.extensions[0], test.in.extensions[1:]...)
 		for _, dir := range test.in.dirs {
 			exists.Directory(dir[0], dir[1:]...)
 		}

@@ -4,7 +4,7 @@ import (
 	"github.com/goexl/gfx/internal/builder"
 )
 
-// Exist 判断是否存在
-func Exist() *builder.Exists {
+// Exists 判断是否存在
+func Exists() *builder.Exists {
 	return builder.NewExists()
 }
