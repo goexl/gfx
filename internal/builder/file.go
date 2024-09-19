@@ -33,6 +33,10 @@ func (f *file[T]) Directory(directory string, directories ...string) (t *T) {
 
 func (f *file[T]) Filepath(required string, paths ...string) (t *T) {
 	for _, path := range append([]string{required}, paths...) {
+		if "" == path {
+			continue
+		}
+
 		dir, filename := filepath.Split(path)
 		name := filepath.Base(filename)
 		ext := filepath.Ext(name)
