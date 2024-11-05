@@ -1,9 +1,11 @@
 package core
 
 import (
+	"os"
 	"path/filepath"
 
 	"github.com/goexl/gfx/internal/internal/core/internal"
+	"github.com/goexl/gfx/internal/internal/kernel"
 	"github.com/goexl/gfx/internal/internal/param"
 )
 
@@ -25,8 +27,10 @@ func (l *List) All() (files []string) {
 		directory := filepath.Join(directories...)
 		patterns := l.file.Patterns(directory)
 		for _, pattern := range patterns {
-			if all, ge := filepath.Glob(pattern); nil == ge && 0 != len(all) {
+			if all, ge := filepath.Glob(pattern); nil == ge && 0 != len(all) && kernel.FileTypeAll == l.params.Type {
 				files = append(files, all...)
+			} else if nil == ge && 0 != len(all) {
+				files = append(files, l.check(all)...)
 			}
 		}
 	}
@@ -34,10 +38,16 @@ func (l *List) All() (files []string) {
 	return
 }
 
-func (l *List) check(pattern string) (final string, exists bool) {
-	if files, _ := filepath.Glob(pattern); 0 != len(files) {
-		final = files[0]
-		exists = true
+func (l *List) check(files []string) (checked []string) {
+	checked = make([]string, 0, len(files))
+	for _, file := range files {
+		if info, se := os.Stat(file); nil != se {
+			continue
+		} else if kernel.FileTypeDirectory == l.params.Type && info.IsDir() {
+			checked = append(checked, file)
+		} else if kernel.FileTypeFile == l.params.Type {
+			checked = append(checked, file)
+		}
 	}
 
 	return

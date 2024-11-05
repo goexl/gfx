@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/goexl/gfx/internal/internal/constant"
+	"github.com/goexl/gfx/internal/internal/kernel"
 	"github.com/goexl/gfx/internal/internal/param"
 )
 
@@ -20,8 +21,25 @@ func newFile[T any](params *param.File, from *T) *file[T] {
 	}
 }
 
-func (f *file[T]) Dir(dir string, dirs ...string) *T {
-	return f.Directory(dir, dirs...)
+func (f *file[T]) Dir() (t *T) {
+	f.params.Type = kernel.FileTypeDirectory
+	t = f.from
+
+	return
+}
+
+func (f *file[T]) File() (t *T) {
+	f.params.Type = kernel.FileTypeFile
+	t = f.from
+
+	return
+}
+
+func (f *file[T]) All() (t *T) {
+	f.params.Type = kernel.FileTypeAll
+	t = f.from
+
+	return
 }
 
 func (f *file[T]) Directory(directory string, directories ...string) (t *T) {
