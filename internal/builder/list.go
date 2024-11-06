@@ -23,7 +23,7 @@ func NewList() (list *List) {
 
 func (l *List) Build() (list *core.List) {
 	l.file.build()
-	list = core.NewList(l.params)
+	list = core.NewList(l.params, l.limit)
 
 	return
 }

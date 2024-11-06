@@ -1,45 +1,34 @@
 package builder
 
 import (
+	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/goexl/gfx/internal/internal/constant"
-	"github.com/goexl/gfx/internal/internal/kernel"
 	"github.com/goexl/gfx/internal/internal/param"
 )
 
 type file[T any] struct {
 	params *param.File
+	limit  *param.Limit
 	from   *T
 }
 
 func newFile[T any](params *param.File, from *T) *file[T] {
 	return &file[T]{
 		params: params,
+		limit:  param.NewLimit(),
 		from:   from,
 	}
 }
 
-func (f *file[T]) Dir() (t *T) {
-	f.params.Type = kernel.FileTypeDirectory
-	t = f.from
-
-	return
+func (f *file[T]) Limit() *limit[file[T]] {
+	return newLimit(f, f.limit)
 }
 
-func (f *file[T]) File() (t *T) {
-	f.params.Type = kernel.FileTypeFile
-	t = f.from
-
-	return
-}
-
-func (f *file[T]) All() (t *T) {
-	f.params.Type = kernel.FileTypeAll
-	t = f.from
-
-	return
+func (f *file[T]) Dir(dir string, dirs ...string) *T {
+	return f.Directory(dir, dirs...)
 }
 
 func (f *file[T]) Directory(directory string, directories ...string) (t *T) {
@@ -55,12 +44,18 @@ func (f *file[T]) Filepath(required string, paths ...string) (t *T) {
 			continue
 		}
 
-		dir, filename := filepath.Split(path)
-		name := filepath.Base(filename)
-		ext := filepath.Ext(name)
-		f.params.Directories = append(f.params.Directories, filepath.SplitList(dir))
-		f.params.Filenames = append(f.params.Filenames, name)
-		f.params.Extensions = append(f.params.Extensions, ext)
+		if info, se := os.Stat(path); (nil == se && info.IsDir()) || "" == filepath.Ext(path) {
+			// 如果是目录或者没有扩展名
+			// !认为是目录，因为有可能配置成为一个不存在路径，为后续动态加载文件提供可能
+			f.params.Directories = append(f.params.Directories, []string{path})
+		} else {
+			dir, filename := filepath.Split(path)
+			name := filepath.Base(filename)
+			ext := filepath.Ext(name)
+			f.params.Directories = append(f.params.Directories, []string{dir})
+			f.params.Filenames = append(f.params.Filenames, name)
+			f.params.Extensions = append(f.params.Extensions, ext)
+		}
 	}
 	t = f.from
 

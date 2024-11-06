@@ -1,9 +1,9 @@
 package kernel
 
 const (
-	FileTypeFile FileType = iota + 1
-	FileTypeDirectory
-	FileTypeAll
+	LimitTypeFile LimitType = iota + 1
+	LimitTypeDirectory
+	LimitTypeAll
 )
 
-type FileType uint8
+type LimitType uint8

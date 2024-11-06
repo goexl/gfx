@@ -11,12 +11,14 @@ import (
 
 type List struct {
 	params *param.List
+	limit  *param.Limit
 	file   *internal.File
 }
 
-func NewList(params *param.List) *List {
+func NewList(params *param.List, limit *param.Limit) *List {
 	return &List{
 		params: params,
+		limit:  limit,
 		file:   internal.NewFile(params.File),
 	}
 }
@@ -27,7 +29,7 @@ func (l *List) All() (files []string) {
 		directory := filepath.Join(directories...)
 		patterns := l.file.Patterns(directory)
 		for _, pattern := range patterns {
-			if all, ge := filepath.Glob(pattern); nil == ge && 0 != len(all) && kernel.FileTypeAll == l.params.Type {
+			if all, ge := filepath.Glob(pattern); nil == ge && 0 != len(all) && kernel.LimitTypeAll == l.limit.Type {
 				files = append(files, all...)
 			} else if nil == ge && 0 != len(all) {
 				files = append(files, l.check(all)...)
@@ -43,9 +45,9 @@ func (l *List) check(files []string) (checked []string) {
 	for _, file := range files {
 		if info, se := os.Stat(file); nil != se {
 			continue
-		} else if kernel.FileTypeDirectory == l.params.Type && info.IsDir() {
+		} else if kernel.LimitTypeDirectory == l.limit.Type && info.IsDir() {
 			checked = append(checked, file)
-		} else if kernel.FileTypeFile == l.params.Type {
+		} else if kernel.LimitTypeFile == l.limit.Type {
 			checked = append(checked, file)
 		}
 	}
