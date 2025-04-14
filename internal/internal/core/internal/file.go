@@ -18,6 +18,16 @@ func NewFile(params *param.File) *File {
 }
 
 func (f *File) Patterns(dir string) (patterns []string) {
+	if 0 == len(f.params.Filenames) {
+		patterns = []string{dir}
+	} else {
+		patterns = f.patterns(dir)
+	}
+
+	return
+}
+
+func (f *File) patterns(dir string) (patterns []string) {
 	patterns = make([]string, 0, len(f.params.Filenames)*len(f.params.Extensions))
 	for _, filename := range f.params.Filenames {
 		for _, extension := range f.params.Extensions {

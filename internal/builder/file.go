@@ -13,6 +13,8 @@ type file[T any] struct {
 	params *param.File
 	limit  *param.Limit
 	from   *T
+
+	reset bool
 }
 
 func newFile[T any](params *param.File, from *T) *file[T] {
@@ -27,19 +29,26 @@ func (f *file[T]) Limit() *limit[file[T]] {
 	return newLimit(f, f.limit)
 }
 
-func (f *file[T]) Dir(dir string, dirs ...string) *T {
-	return f.Directory(dir, dirs...)
-}
-
-func (f *file[T]) Directory(directory string, directories ...string) (t *T) {
-	f.params.Directories = append(f.params.Directories, append([]string{directory}, directories...))
+func (f *file[T]) Reset() (t *T) {
+	f.reset = true
 	t = f.from
 
 	return
 }
 
-func (f *file[T]) Filepath(required string, paths ...string) (t *T) {
-	for _, path := range append([]string{required}, paths...) {
+func (f *file[T]) Dir(required string, optionals ...string) *T {
+	return f.Directory(required, optionals...)
+}
+
+func (f *file[T]) Directory(required string, optionals ...string) (t *T) {
+	f.params.Directories = append(f.params.Directories, append([]string{required}, optionals...))
+	t = f.from
+
+	return
+}
+
+func (f *file[T]) Filepath(required string, optionals ...string) (t *T) {
+	for _, path := range append([]string{required}, optionals...) {
 		if "" == path {
 			continue
 		}
@@ -62,28 +71,28 @@ func (f *file[T]) Filepath(required string, paths ...string) (t *T) {
 	return
 }
 
-func (f *file[T]) Filename(filename string, filenames ...string) (t *T) {
-	f.params.Filenames = append(f.params.Filenames, filename)
-	f.params.Filenames = append(f.params.Filenames, filenames...)
+func (f *file[T]) Filename(required string, optionals ...string) (t *T) {
+	f.params.Filenames = append(f.params.Filenames, required)
+	f.params.Filenames = append(f.params.Filenames, optionals...)
 	t = f.from
 
 	return
 }
 
-func (f *file[T]) Extension(extension string, extensions ...string) (t *T) {
-	f.extension(append([]string{extension}, extensions...))
+func (f *file[T]) Extension(required string, optionals ...string) (t *T) {
+	f.extension(append([]string{required}, optionals...))
 	t = f.from
 
 	return
 }
 
 func (f *file[T]) build() {
-	// 检查扩展名是不是已经被设置过，如果被设置过去除默认配置
-	if 1 < len(f.params.Extensions) {
+	// 检查是否重置，如果被设置过去除默认配置
+	if f.reset {
 		f.params.Extensions = f.params.Extensions[1:]
 	}
-	// 检查目录是不是已经被设置过，如果被设置过去除默认配置
-	if 1 < len(f.params.Directories) {
+	// 检查是否重置，如果被设置过去除默认配置
+	if f.reset {
 		f.params.Directories = f.params.Directories[1:]
 	}
 }
