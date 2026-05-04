@@ -3,7 +3,7 @@ module github.com/goexl/gfx
 go 1.25.0
 
 require (
-	github.com/fsnotify/fsnotify v1.10.0
+	github.com/fsnotify/fsnotify v1.10.1
 	golang.org/x/text v0.36.0
 )
 
